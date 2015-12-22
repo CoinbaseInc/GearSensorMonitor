@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<TITLE> Hello World in Javascript </TITLE>
+</HEAD>
+<BODY>
+<h2>Example 1</h2>
+
+<script language="Javascript">
+    
+
+// See http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+
+function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+
+function onClickButton() {
+    
+    post('http://192.168.1.26:3000/test-page/',
+        {
+            accelX: '0.0',
+            accelY: '0.0',
+            accelZ: '0.0',
+            rotationX: '0.0',
+            rotationY: '0.0',
+            rotationZ: '0.0',
+        }
+    );
+}    
+
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+window.onload = function() {
+    var myDiv = document.getElementById('myDiv');
+    
+    var httpResult = httpGet("http://192.168.1.26:3000/");
+    //httpResult = "HELLO";
+    //alert(httpResult);
+    myDiv.innerHTML = httpResult;
+}
+
+</script>
+
+
+<p id="myDiv">To replace</p>
+
+<button onclick="onClickButton()">Click me</button>
+
+</BODY>
+</HTML>
